@@ -18,6 +18,6 @@ resource "aws_dynamodb_table" "cost_history" {
   tags = {
     Name        = "aws-cost-history"
     Project     = "aws-cost-optimizer"
-    Environment = "Dev"
+    Environment = "dev"
   }
 }

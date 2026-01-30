@@ -4,7 +4,7 @@ resource "aws_s3_bucket" "cost_data_bucket" {
   tags = {
     Name        = "aws-cost-data"
     Project     = "aws-cost-optimizer"
-    Environment = "Dev"
+    Environment = "dev"
   }
 }
 
