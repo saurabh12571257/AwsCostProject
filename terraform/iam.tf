@@ -28,7 +28,6 @@ resource "aws_iam_role_policy" "lambda_cost_permissions" {
     Version = "2012-10-17"
     Statement = [
 
-      # 1️⃣ Cost Explorer – read-only
       {
         Effect = "Allow"
         Action = [
@@ -38,7 +37,6 @@ resource "aws_iam_role_policy" "lambda_cost_permissions" {
         Resource = "*"
       },
 
-      # 2️⃣ DynamoDB – write & read cost history
       {
         Effect = "Allow"
         Action = [
@@ -49,7 +47,6 @@ resource "aws_iam_role_policy" "lambda_cost_permissions" {
         Resource = aws_dynamodb_table.cost_history.arn
       },
 
-      # 3️⃣ S3 – store raw cost data
       {
         Effect = "Allow"
         Action = [
