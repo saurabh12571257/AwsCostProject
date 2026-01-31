@@ -2,6 +2,7 @@ import boto3
 from datetime import date, timedelta
 import json
 import os
+from decimal import Decimal
 
 ce = boto3.client("ce")
 dynamodb = boto3.resource("dynamodb")
@@ -21,20 +22,22 @@ def lambda_handler(event, context):
         },
         Granularity="DAILY",
         Metrics=["UnblendedCost"],
-        GroupBy=[{"Type": "DIMENSION", "Key": "SERVICE"}],
+        GroupBy=[
+            {"Type": "DIMENSION", "Key": "SERVICE"}
+        ],
     )
 
     table = dynamodb.Table(TABLE_NAME)
 
     for group in response["ResultsByTime"][0]["Groups"]:
         service = group["Keys"][0]
-        cost = float(group["Metrics"]["UnblendedCost"]["Amount"])
+        amount = group["Metrics"]["UnblendedCost"]["Amount"]
 
         table.put_item(
             Item={
                 "service_name": service,
                 "date": yesterday.strftime("%Y-%m-%d"),
-                "cost": cost,
+                "cost": Decimal(amount)
             }
         )
 
@@ -44,4 +47,7 @@ def lambda_handler(event, context):
         Body=json.dumps(response),
     )
 
-    return {"status": "success"}
+    return {
+        "status": "success",
+        "date": str(yesterday)
+    }
