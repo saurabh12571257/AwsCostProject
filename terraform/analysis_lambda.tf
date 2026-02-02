@@ -23,8 +23,11 @@ resource "aws_lambda_function" "cost_analysis" {
     }
   }
 
+
+
   depends_on = [
-    aws_cloudwatch_log_group.cost_analyzer_logs
+    aws_cloudwatch_log_group.cost_analyzer_logs,
+    aws_cloudwatch_log_group.cost_analysis_logs
   ]
 
   tags = {
@@ -32,3 +35,4 @@ resource "aws_lambda_function" "cost_analysis" {
     Environment = "dev"
   }
 }
+
